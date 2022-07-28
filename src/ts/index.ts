@@ -5,6 +5,8 @@ type TOAST = {
   el: HTMLElement
 }
 
+// window.MyNamespace = window.MyNamespace || {};
+
 interface OPTIONS {
   position: POSITIONS
   autoClose: boolean
@@ -14,7 +16,7 @@ interface OPTIONS {
 const DEFAULT_OPTIONS: OPTIONS = {
   position: "bottom-left",
   autoClose: false,
-  autoCloseDuration: 8000,
+  autoCloseDuration: 4000,
 }
 
 class TsToast {
@@ -77,16 +79,27 @@ class TsToast {
     this.show(text)
   }
 }
+declare global {
+  interface Window {
+    tsToast: any
+  }
+}
 
-let tsToast = new TsToast({ position: "top-right", autoClose: true })
+if (!window.tsToast) {
+  window.tsToast = TsToast
+}
+export {}
+// window.tsToast.message('Hello')
 
-tsToast.message("User has logged in")
-setTimeout(() => {
-  tsToast.message("updates have been installed")
-}, 1000)
-setTimeout(() => {
-  tsToast.message("game on")
-}, 2000)
-setTimeout(() => {
-  tsToast.message("thank you for visiting")
-}, 3000)
+// let tsToast = new TsToast({ position: "top-right", autoClose: true })
+
+// tsToast.message("User has logged in")
+// setTimeout(() => {
+  //   tsToast.message("updates have been installed")
+// }, 1000)
+// setTimeout(() => {
+  //   tsToast.message("game on")
+  // }, 2000)
+// setTimeout(() => {
+//   tsToast.message("thank you for visiting")
+// }, 3000)
